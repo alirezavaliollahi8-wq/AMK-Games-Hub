@@ -1,0 +1,668 @@
+```html
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMK GAMES HUB</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#05070d;color:#fff}
+header{height:70px;padding:0 25px;display:flex;align-items:center;justify-content:space-between;background:#090d16;border-bottom:1px solid #202a3b;position:sticky;top:0;z-index:100}
+.logo{font-size:25px;font-weight:900;color:#ffd400}
+.logo span{color:#fff}
+nav{display:flex;gap:7px}
+button{cursor:pointer;font:inherit}
+nav button,.topbtn{background:transparent;color:#aeb7c8;border:0;padding:10px 14px;border-radius:9px}
+nav button:hover,nav button.active{background:#171d29;color:#ffd400}
+.topbtn{border:1px solid #293246;background:#101722;color:#fff}
+.container{max-width:1400px;margin:auto;padding:30px}
+.page{display:none}
+.page.active{display:block}
+.hero{min-height:480px;padding:80px 8%;display:grid;grid-template-columns:1.3fr .7fr;gap:30px;align-items:center;background:radial-gradient(circle at 80%,#302900,#05070d 50%)}
+.hero h1{font-size:70px;margin:0;line-height:1}
+.hero h1 span{color:#ffd400}
+.hero p{color:#8d98aa;line-height:2;font-size:17px;max-width:700px}
+.btn{padding:13px 20px;border:0;border-radius:10px;font-weight:bold}
+.yellow{background:#ffd400;color:#111}
+.dark{background:#121a27;color:#fff;border:1px solid #263145}
+.hero-logo{height:330px;border:1px solid #3b3211;border-radius:25px;display:grid;place-items:center;font-size:55px;font-weight:900;color:#ffd400;text-shadow:0 0 30px #ffd400;background:linear-gradient(145deg,#14130b,#080b12)}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:35px 0 18px}
+.section-title h2{margin:0}
+.search{display:flex;gap:10px;margin-bottom:20px}
+input,textarea,select{width:100%;background:#080e18;color:#fff;border:1px solid #273247;border-radius:10px;padding:13px;outline:none}
+textarea{min-height:120px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:17px}
+.card{background:#0b111b;border:1px solid #202a39;border-radius:16px;overflow:hidden}
+.cover{height:180px;display:grid;place-items:center;font-size:24px;font-weight:900;background:linear-gradient(135deg,#16243a,#080b11);color:#ffd400}
+.card-body{padding:15px}
+.meta{color:#7f8a9d;font-size:12px;margin:8px 0 14px}
+.card-actions{display:flex;gap:7px}
+.card-actions button{flex:1;padding:9px;border:0;border-radius:8px;background:#161f2e;color:#fff}
+.card-actions .play{background:#ffd400;color:#111}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.stat{padding:22px;background:#0b111b;border:1px solid #202a39;border-radius:15px}
+.stat b{display:block;font-size:30px;color:#ffd400;margin-bottom:5px}
+.stat span{color:#8a94a6}
+.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:15px}
+.reel{height:330px;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(160deg,#162d44,#170d21);border:1px solid #202a39}
+.reel:after{content:"▶";position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:#ffd400;color:#111}
+.reel-info{position:absolute;bottom:0;right:0;left:0;padding:18px;background:linear-gradient(transparent,#000)}
+.admin-layout{display:grid;grid-template-columns:230px 1fr;gap:18px}
+.sidebar,.admin-content{background:#090f19;border:1px solid #202a39;border-radius:16px;padding:15px}
+.sidebar button{width:100%;padding:13px;text-align:right;background:transparent;border:0;color:#a4adbd;border-radius:8px;margin-bottom:5px}
+.sidebar button:hover,.sidebar button.active{background:#181e2a;color:#ffd400}
+.admin-tab{display:none}
+.admin-tab.active{display:block}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:right;padding:13px;border-bottom:1px solid #202a39}
+th{color:#ffd400}
+td{color:#aab3c2}
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.news{background:#0b111b;border:1px solid #202a39;border-radius:15px;padding:20px}
+.news h3{margin-top:0}
+.news p{color:#8d98aa;line-height:1.8}
+.login-box{max-width:430px;margin:80px auto;background:#0b111b;border:1px solid #293246;border-radius:20px;padding:30px}
+.login-box h2{text-align:center;color:#ffd400}
+.form{display:grid;gap:12px}
+.upload{padding:35px;border:2px dashed #29364d;border-radius:15px;text-align:center;color:#8994a8}
+.empty{text-align:center;padding:50px;color:#788397;border:1px dashed #283448;border-radius:15px}
+.badge{display:inline-block;padding:5px 9px;border-radius:7px;background:#10291f;color:#00ff9d;font-size:11px}
+.toast{position:fixed;bottom:25px;left:25px;background:#121b29;border:1px solid #39475e;padding:14px 18px;border-radius:10px;display:none;z-index:9999}
+footer{text-align:center;color:#697488;padding:35px;border-top:1px solid #202a39;margin-top:50px}
+@media(max-width:1000px){
+.hero{grid-template-columns:1fr}
+.grid{grid-template-columns:repeat(2,1fr)}
+.reels{grid-template-columns:repeat(3,1fr)}
+.news-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+nav{display:none}
+.hero h1{font-size:45px}
+.grid,.reels,.news-grid,.stats{grid-template-columns:1fr}
+.admin-layout{grid-template-columns:1fr}
+.container{padding:18px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">AMK <span>GAMES HUB</span></div>
+
+<nav>
+<button class="active" onclick="page('home',this)">خانه</button>
+<button onclick="page('games',this)">بازی‌ها</button>
+<button onclick="page('reels',this)">Reels</button>
+<button onclick="page('news',this)">اخبار</button>
+<button onclick="page('creators',this)">سازنده‌ها</button>
+<button id="adminNav" style="display:none" onclick="page('admin',this)">👑 مدیریت</button>
+</nav>
+
+<div>
+<button class="topbtn" id="loginBtn" onclick="page('login')">ورود</button>
+<button class="topbtn" id="logoutBtn" style="display:none" onclick="logout()">خروج</button>
+</div>
+</header>
+
+<section id="home" class="page active">
+<div class="hero">
+<div>
+<h1>YOUR GAME.<br><span>YOUR WORLD.</span></h1>
+<p>پلتفرم گیمینگ AMK برای انتشار بازی، ویدئو، اخبار و ساخت جامعه‌ای از گیمرها و سازندگان.</p>
+<button class="btn yellow" onclick="page('games')">🎮 کشف بازی‌ها</button>
+<button class="btn dark" onclick="openGameUpload()">＋ انتشار بازی</button>
+</div>
+<div class="hero-logo">AMK<br>GAMES</div>
+</div>
+
+<div class="container">
+<div class="stats">
+<div class="stat"><b id="gameCount">128</b><span>بازی</span></div>
+<div class="stat"><b>8.4K</b><span>کاربر</span></div>
+<div class="stat"><b>32K</b><span>دانلود</span></div>
+<div class="stat"><b>5.7K</b><span>Reels</span></div>
+</div>
+
+<div class="section-title">
+<h2>🔥 بازی‌های ترند</h2>
+<button class="btn dark" onclick="page('games')">همه</button>
+</div>
+<div class="grid" id="featured"></div>
+
+<div class="section-title">
+<h2>📰 آخرین اخبار</h2>
+<button class="btn dark" onclick="page('news')">همه اخبار</button>
+</div>
+<div class="news-grid" id="homeNews"></div>
+</div>
+</section>
+
+<section id="games" class="page">
+<div class="container">
+<div class="section-title">
+<h2>🎮 بازی‌ها</h2>
+<button class="btn yellow" onclick="openGameUpload()">＋ آپلود بازی</button>
+</div>
+<div class="search">
+<input id="gameSearch" placeholder="🔎 جستجوی بازی..." oninput="renderGames()">
+</div>
+<div class="grid" id="gamesGrid"></div>
+</div>
+</section>
+
+<section id="reels" class="page">
+<div class="container">
+<div class="section-title">
+<h2>🎬 Reels</h2>
+<button class="btn yellow" onclick="openReelUpload()">＋ آپلود Reel</button>
+</div>
+<div class="reels" id="reelsGrid"></div>
+</div>
+</section>
+
+<section id="news" class="page">
+<div class="container">
+<div class="section-title">
+<h2>📰 اخبار AMK</h2>
+<span>آخرین اخبار سایت</span>
+</div>
+<div class="news-grid" id="newsGrid"></div>
+</div>
+</section>
+
+<section id="creators" class="page">
+<div class="container">
+<div class="section-title"><h2>👥 سازنده‌ها</h2></div>
+<div class="grid">
+<div class="card"><div class="cover">KF</div><div class="card-body"><b>@KingerFire</b><div class="meta">14 بازی • 2.4K دنبال‌کننده</div><button class="btn yellow" style="width:100%">Follow</button></div></div>
+<div class="card"><div class="cover">SD</div><div class="card-body"><b>@ShadowDev</b><div class="meta">8 بازی • 1.8K دنبال‌کننده</div><button class="btn yellow" style="width:100%">Follow</button></div></div>
+<div class="card"><div class="cover">PF</div><div class="card-body"><b>@PixelFox</b><div class="meta">21 بازی • 5.1K دنبال‌کننده</div><button class="btn yellow" style="width:100%">Follow</button></div></div>
+</div>
+</div>
+</section>
+
+<section id="login" class="page">
+<div class="login-box">
+<h2>🔐 ورود به AMK</h2>
+<div class="form">
+<input id="email" type="email" placeholder="ایمیل">
+<input id="password" type="password" placeholder="رمز عبور">
+<button class="btn yellow" onclick="login()">ورود</button>
+</div>
+<p style="color:#788397;font-size:12px;margin-top:15px">
+برای حساب Super Admin از ایمیل تعیین‌شده استفاده کنید.
+</p>
+</div>
+</section>
+
+<section id="admin" class="page">
+<div class="container">
+<div class="admin-layout">
+
+<aside class="sidebar">
+<button class="active" onclick="adminTab('dashboard',this)">📊 Dashboard</button>
+<button onclick="adminTab('manageGames',this)">🎮 بازی‌ها</button>
+<button onclick="adminTab('manageReels',this)">🎬 Reels</button>
+<button onclick="adminTab('manageNews',this)">📰 اخبار</button>
+<button onclick="adminTab('manageUsers',this)">👥 کاربران</button>
+<button onclick="adminTab('manageUploads',this)">📤 آپلودها</button>
+<button onclick="adminTab('settings',this)">⚙ تنظیمات</button>
+</aside>
+
+<main class="admin-content">
+
+<div id="dashboard" class="admin-tab active">
+<div class="section-title"><h2>👑 Super Admin Dashboard</h2><span class="badge">SUPER ADMIN</span></div>
+<div class="stats">
+<div class="stat"><b id="adminGameCount">128</b><span>Games</span></div>
+<div class="stat"><b>5.7K</b><span>Reels</span></div>
+<div class="stat"><b>8.4K</b><span>Users</span></div>
+<div class="stat"><b>32K</b><span>Downloads</span></div>
+</div>
+</div>
+
+<div id="manageGames" class="admin-tab">
+<div class="section-title">
+<h2>🎮 مدیریت بازی‌ها</h2>
+<button class="btn yellow" onclick="openGameUpload()">＋ بازی جدید</button>
+</div>
+<table>
+<thead><tr><th>نام</th><th>سازنده</th><th>ژانر</th><th>عملیات</th></tr></thead>
+<tbody id="gameAdminTable"></tbody>
+</table>
+</div>
+
+<div id="manageReels" class="admin-tab">
+<div class="section-title">
+<h2>🎬 مدیریت Reels</h2>
+<button class="btn yellow" onclick="openReelUpload()">＋ Reel جدید</button>
+</div>
+<table>
+<thead><tr><th>عنوان</th><th>سازنده</th><th>بازدید</th><th>عملیات</th></tr></thead>
+<tbody id="reelAdminTable"></tbody>
+</table>
+</div>
+
+<div id="manageNews" class="admin-tab">
+<div class="section-title">
+<h2>📰 مدیریت اخبار</h2>
+<button class="btn yellow" onclick="openNewsUpload()">＋ خبر جدید</button>
+</div>
+<div id="adminNewsList"></div>
+</div>
+
+<div id="manageUsers" class="admin-tab">
+<div class="section-title"><h2>👥 مدیریت کاربران</h2></div>
+<table>
+<tr><th>کاربر</th><th>ایمیل</th><th>سطح</th><th>وضعیت</th><th>عملیات</th></tr>
+<tr><td>Admin</td><td>amkvaliollahi1313@gmail.com</td><td>SUPER ADMIN</td><td><span class="badge">Active</span></td><td>👑</td></tr>
+<tr><td>KingerFire</td><td>user@example.com</td><td>Creator</td><td><span class="badge">Active</span></td><td><button class="btn dark">Manage</button></td></tr>
+</table>
+</div>
+
+<div id="manageUploads" class="admin-tab">
+<div class="section-title"><h2>📤 آپلود فایل</h2></div>
+<div class="upload">
+<b>فایل بازی یا ویدئو را انتخاب کنید</b><br><br>
+<input type="file">
+</div>
+</div>
+
+<div id="settings" class="admin-tab">
+<div class="section-title"><h2>⚙ تنظیمات سایت</h2></div>
+<div class="form">
+<input value="AMK GAMES HUB">
+<textarea>Gaming platform for players and creators.</textarea>
+<button class="btn yellow" onclick="toast('تنظیمات ذخیره شد ✓')">ذخیره</button>
+</div>
+</div>
+
+</main>
+</div>
+</div>
+</section>
+
+<div class="modal" id="gameModal">
+<div class="modal-box">
+<h2>🎮 انتشار بازی</h2>
+<div class="form">
+<input id="gameName" placeholder="نام بازی">
+<select id="gameGenre">
+<option>Action</option>
+<option>Adventure</option>
+<option>Racing</option>
+<option>Horror</option>
+<option>Strategy</option>
+</select>
+<textarea id="gameDesc" placeholder="توضیحات"></textarea>
+<div class="upload">
+انتخاب فایل بازی
+<input id="gameFile" type="file">
+</div>
+<button class="btn yellow" onclick="addGame()">انتشار</button>
+<button class="btn dark" onclick="closeModal('gameModal')">بستن</button>
+</div>
+</div>
+</div>
+
+<div class="modal" id="reelModal">
+<div class="modal-box">
+<h2>🎬 انتشار Reel</h2>
+<div class="form">
+<input id="reelTitle" placeholder="عنوان Reel">
+<input id="reelFile" type="file" accept="video/*">
+<button class="btn yellow" onclick="addReel()">انتشار</button>
+<button class="btn dark" onclick="closeModal('reelModal')">بستن</button>
+</div>
+</div>
+</div>
+
+<div class="modal" id="newsModal">
+<div class="modal-box">
+<h2>📰 افزودن خبر</h2>
+<div class="form">
+<input id="newsTitle" placeholder="عنوان خبر">
+<textarea id="newsText" placeholder="متن خبر"></textarea>
+<input id="newsImage" type="file" accept="image/*">
+<button class="btn yellow" onclick="addNews()">انتشار خبر</button>
+<button class="btn dark" onclick="closeModal('newsModal')">بستن</button>
+</div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>© 2026 AMK GAMES HUB</footer>
+
+<script>
+const ADMIN_EMAIL="amkvaliollahi1313@gmail.com";
+
+let loggedIn=false;
+let currentUser=null;
+
+let games=[
+{name:"Neon Assault",genre:"Action",dev:"KingerFire",downloads:"8.4K"},
+{name:"Shadow Arena",genre:"Action",dev:"ShadowDev",downloads:"5.1K"},
+{name:"Pixel Racer",genre:"Racing",dev:"PixelFox",downloads:"12.8K"},
+{name:"Dark Night",genre:"Horror",dev:"NightDev",downloads:"4.2K"},
+{name:"Kingdom War",genre:"Strategy",dev:"WarMaker",downloads:"7.8K"},
+{name:"Lost Island",genre:"Adventure",dev:"AdventureX",downloads:"3.9K"},
+{name:"Cyber Strike",genre:"Action",dev:"AKF Studio",downloads:"18.3K"},
+{name:"Turbo City",genre:"Racing",dev:"SpeedDev",downloads:"9.1K"}
+];
+
+let reels=[
+["Epic Gameplay","KingerFire","12K"],
+["Boss Fight","ShadowDev","8K"],
+["Insane Speedrun","PixelFox","19K"],
+["NEW UPDATE","DevZone","5K"],
+["PvP Highlights","AKF","22K"]
+];
+
+let news=[
+{title:"🔥 AMK Games Hub افتتاح شد!",text:"به پلتفرم جدید گیمینگ AMK خوش آمدید. بازی‌ها و محتوای خودتان را منتشر کنید.",date:"2026/10/06"},
+{title:"🎮 سیستم انتشار بازی فعال شد",text:"از امروز سازندگان می‌توانند بازی‌های خود را در سایت منتشر کنند.",date:"2026/10/06"},
+{title:"🎬 بخش Reels اضافه شد",text:"ویدئوهای کوتاه گیمینگ خودتان را منتشر کنید.",date:"2026/10/06"}
+];
+
+function page(id,btn){
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+if(btn){
+document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+btn.classList.add("active");
+}
+scrollTo(0,0);
+}
+
+function login(){
+const email=document.getElementById("email").value.trim().toLowerCase();
+const password=document.getElementById("password").value;
+
+if(!email||!password){
+toast("ایمیل و رمز را وارد کنید");
+return;
+}
+
+loggedIn=true;
+currentUser={
+email,
+admin:email===ADMIN_EMAIL
+};
+
+document.getElementById("loginBtn").style.display="none";
+document.getElementById("logoutBtn").style.display="inline-block";
+
+document.getElementById("adminNav").style.display=currentUser.admin?"inline-block":"none";
+
+toast(currentUser.admin?"👑 ورود Super Admin موفق بود":"ورود موفق بود");
+
+page(currentUser.admin?"admin":"home");
+}
+
+function logout(){
+loggedIn=false;
+currentUser=null;
+document.getElementById("loginBtn").style.display="inline-block";
+document.getElementById("logoutBtn").style.display="none";
+document.getElementById("adminNav").style.display="none";
+page("home");
+toast("از حساب خارج شدید");
+}
+
+function adminTab(id,btn){
+if(!currentUser||!currentUser.admin){
+toast("دسترسی غیرمجاز");
+return;
+}
+document.querySelectorAll(".admin-tab").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.querySelectorAll(".sidebar button").forEach(x=>x.classList.remove("active"));
+btn.classList.add("active");
+renderAdmin();
+}
+
+function openGameUpload(){
+if(!loggedIn){
+page("login");
+toast("ابتدا وارد حساب شوید");
+return;
+}
+document.getElementById("gameModal").classList.add("show");
+}
+
+function openReelUpload(){
+if(!loggedIn){
+page("login");
+toast("ابتدا وارد حساب شوید");
+return;
+}
+document.getElementById("reelModal").classList.add("show");
+}
+
+function openNewsUpload(){
+if(!currentUser||!currentUser.admin){
+toast("فقط Super Admin می‌تواند خبر منتشر کند");
+return;
+}
+document.getElementById("newsModal").classList.add("show");
+}
+
+function closeModal(id){
+document.getElementById(id).classList.remove("show");
+}
+
+function addGame(){
+const name=document.getElementById("gameName").value.trim();
+const genre=document.getElementById("gameGenre").value;
+const file=document.getElementById("gameFile").files[0];
+
+if(!name||!file){
+toast("نام بازی و فایل بازی الزامی است");
+return;
+}
+
+games.unshift({
+name,
+genre,
+dev:currentUser?.email||"User",
+downloads:"0"
+});
+
+closeModal("gameModal");
+renderAll();
+toast("بازی اضافه شد ✓");
+}
+
+function addReel(){
+const title=document.getElementById("reelTitle").value.trim();
+const file=document.getElementById("reelFile").files[0];
+
+if(!title||!file){
+toast("عنوان و فایل ویدئو الزامی است");
+return;
+}
+
+reels.unshift([title,currentUser?.email||"User","0"]);
+closeModal("reelModal");
+renderAll();
+toast("Reel منتشر شد ✓");
+}
+
+function addNews(){
+if(!currentUser||!currentUser.admin){
+toast("دسترسی غیرمجاز");
+return;
+}
+
+const title=document.getElementById("newsTitle").value.trim();
+const text=document.getElementById("newsText").value.trim();
+
+if(!title||!text){
+toast("عنوان و متن خبر را وارد کنید");
+return;
+}
+
+news.unshift({
+title,
+text,
+date:new Date().toLocaleDateString("fa-IR")
+});
+
+document.getElementById("newsTitle").value="";
+document.getElementById("newsText").value="";
+
+closeModal("newsModal");
+renderAll();
+toast("خبر منتشر شد ✓");
+}
+
+function renderGames(){
+const q=(document.getElementById("gameSearch")?.value||"").toLowerCase();
+
+const filtered=games.filter(g=>
+g.name.toLowerCase().includes(q)||
+g.genre.toLowerCase().includes(q)||
+g.dev.toLowerCase().includes(q)
+);
+
+document.getElementById("gamesGrid").innerHTML=filtered.map(gameCard).join("");
+document.getElementById("featured").innerHTML=games.slice(0,4).map(gameCard).join("");
+}
+
+function gameCard(g){
+return `
+<div class="card">
+<div class="cover">🎮<br>${esc(g.name)}</div>
+<div class="card-body">
+<b>${esc(g.name)}</b>
+<div class="meta">${esc(g.genre)} • ${esc(g.dev)} • ⬇ ${g.downloads}</div>
+<div class="card-actions">
+<button class="play" onclick="toast('آماده‌سازی دانلود ${esc(g.name)}')">PLAY</button>
+<button onclick="this.textContent='♥'">♡</button>
+</div>
+</div>
+</div>`;
+}
+
+function renderReels(){
+document.getElementById("reelsGrid").innerHTML=reels.map(r=>`
+<div class="reel">
+<div class="reel-info">
+<b>${esc(r[0])}</b><br>
+<small>${esc(r[1])} • ${r[2]} views</small>
+</div>
+</div>`).join("");
+}
+
+function renderNews(){
+const html=news.map((n,i)=>`
+<div class="news">
+<small style="color:#ffd400">${n.date}</small>
+<h3>${esc(n.title)}</h3>
+<p>${esc(n.text)}</p>
+</div>`).join("");
+
+document.getElementById("newsGrid").innerHTML=html;
+document.getElementById("homeNews").innerHTML=news.slice(0,3).map(n=>`
+<div class="news">
+<small style="color:#ffd400">${n.date}</small>
+<h3>${esc(n.title)}</h3>
+<p>${esc(n.text)}</p>
+</div>`).join("");
+}
+
+function renderAdmin(){
+document.getElementById("gameAdminTable").innerHTML=games.map((g,i)=>`
+<tr>
+<td>${esc(g.name)}</td>
+<td>${esc(g.dev)}</td>
+<td>${esc(g.genre)}</td>
+<td>
+<button class="btn dark" onclick="deleteGame(${i})">🗑 حذف</button>
+</td>
+</tr>`).join("");
+
+document.getElementById("reelAdminTable").innerHTML=reels.map((r,i)=>`
+<tr>
+<td>${esc(r[0])}</td>
+<td>${esc(r[1])}</td>
+<td>${r[2]}</td>
+<td><button class="btn dark" onclick="deleteReel(${i})">🗑 حذف</button></td>
+</tr>`).join("");
+
+document.getElementById("adminNewsList").innerHTML=news.map((n,i)=>`
+<div class="news" style="margin-bottom:12px">
+<h3>${esc(n.title)}</h3>
+<p>${esc(n.text)}</p>
+<small>${n.date}</small><br><br>
+<button class="btn dark" onclick="deleteNews(${i})">🗑 حذف خبر</button>
+</div>`).join("");
+
+document.getElementById("adminGameCount").textContent=128+games.length-8;
+}
+
+function deleteGame(i){
+if(!currentUser?.admin)return;
+if(confirm("این بازی حذف شود؟")){
+games.splice(i,1);
+renderAll();
+toast("بازی حذف شد");
+}
+}
+
+function deleteReel(i){
+if(!currentUser?.admin)return;
+if(confirm("این Reel حذف شود؟")){
+reels.splice(i,1);
+renderAll();
+toast("Reel حذف شد");
+}
+}
+
+function deleteNews(i){
+if(!currentUser?.admin)return;
+if(confirm("این خبر حذف شود؟")){
+news.splice(i,1);
+renderAll();
+toast("خبر حذف شد");
+}
+}
+
+function renderAll(){
+renderGames();
+renderReels();
+renderNews();
+if(currentUser?.admin)renderAdmin();
+}
+
+function esc(x){
+return String(x)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+
+function toast(msg){
+const t=document.getElementById("toast");
+t.textContent=msg;
+t.style.display="block";
+clearTimeout(window.tt);
+window.tt=setTimeout(()=>t.style.display="none",2500);
+}
+
+document.querySelectorAll(".modal").forEach(m=>{
+m.addEventListener("click",e=>{
+if(e.target===m)m.classList.remove("show");
+});
+});
+
+renderAll();
+</script>
+</body>
+</html>
+```
